@@ -133,5 +133,74 @@ public class SpringCrud3Application
 		posts = postService.findAll();
 		posts.forEach(System.out::println);
 		System.out.println("-------------------------------------------------------");
+
+		int deletePostId = 1;
+		Optional<Post> optP1 = postService.findById(deletePostId);
+		if (optP1.isEmpty()) {
+
+			System.out.println("Post with id " + deletePostId + " not found");
+			return;
+		}
+
+		Post p1 = optP1.get();
+		postService.delete(p1);
+
+		System.out.println("Post with id " + deletePostId + " deleted");
+		System.out.println("-------------------------------------------------------");
+
+		posts = postService.findAll();
+		posts.forEach(System.out::println);
+		System.out.println("-------------------------------------------------------");
+
+		int updateUserId = 3;
+		Optional<Utente> optU3 = utenteService.findById(updateUserId);
+
+		if (optU3.isEmpty()) {
+			System.out.println("User with id " + updateUserId + " not found");
+			return;
+		}
+
+		Utente u3 = optU3.get();
+		u3.setRealname("Topolino");
+		utenteService.save(u3);
+
+		System.out.println("User with id " + updateUserId + " updated");
+		System.out.println("-------------------------------------------------------");
+
+		utenti = utenteService.findAll();
+		utenti.forEach(System.out::println);
+		System.out.println("-------------------------------------------------------");
+
+		int updatePostId = 2;
+		Optional<Post> optP2 = postService.findById(updatePostId);
+
+		if (optP2.isEmpty()) {
+			System.out.println("Post with id " + updatePostId + " not found");
+			return;
+		}
+
+		Post p2 = optP2.get();
+		p2.setTitle("Secondo post modificato");
+		postService.save(p2);
+
+		System.out.println("Post with id " + updatePostId + " updated");
+		System.out.println("-------------------------------------------------------");
+
+		posts = postService.findAll();
+		posts.forEach(System.out::println);
+		System.out.println("-------------------------------------------------------");
+
+		posts = postService.findAll();
+		utenti = utenteService.findAllWPosts();
+
+		posts.forEach(p -> System.out.println("Author: " + p.getUtente().getRealname() + "\n" + p));
+		System.out.println("-------------------------------------------------------");
+
+		utenti.forEach(u -> {
+			System.out.println("Utente: " + u.getRealname());
+
+			u.getPosts().forEach(p -> System.out.println(p));
+		});
+		System.out.println("-------------------------------------------------------");
 	}
 }
