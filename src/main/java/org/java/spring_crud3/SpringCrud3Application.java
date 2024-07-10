@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.java.spring_crud3.db.pojo.Post;
+import org.java.spring_crud3.db.pojo.Tag;
 import org.java.spring_crud3.db.pojo.Utente;
 import org.java.spring_crud3.db.serv.PostService;
+import org.java.spring_crud3.db.serv.TagService;
 import org.java.spring_crud3.db.serv.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -51,6 +53,9 @@ public class SpringCrud3Application
 	@Autowired
 	private PostService postService;
 
+	@Autowired
+	private TagService tagService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringCrud3Application.class, args);
 	}
@@ -62,7 +67,8 @@ public class SpringCrud3Application
 
 		// noRelationalTest();
 		relationalTest();
-		crudTest();
+		// crudTest();
+		manyToManyTest();
 
 		System.out.println("The end");
 	}
@@ -202,5 +208,39 @@ public class SpringCrud3Application
 			u.getPosts().forEach(p -> System.out.println(p));
 		});
 		System.out.println("-------------------------------------------------------");
+	}
+
+	public void manyToManyTest() {
+
+		List<Utente> utenti = utenteService.findAll();
+		List<Post> posts = postService.findAll();
+
+		utenti.forEach(System.out::println);
+		System.out.println("-------------------------------------------------------");
+		posts.forEach(System.out::println);
+		System.out.println("-------------------------------------------------------");
+
+		Tag tag1 = new Tag("Tag1");
+		Tag tag2 = new Tag("Tag2");
+		Tag tag3 = new Tag("Tag3");
+
+		tagService.save(tag1);
+		tagService.save(tag2);
+		tagService.save(tag3);
+
+		Optional<Post> optP1 = postService.findByIdWithTags(1);
+
+		if (optP1.isEmpty()) {
+			System.out.println("Post with id 1 not found");
+			return;
+		}
+
+		System.out.println("-------------------------------------------------------");
+
+		Post p1 = optP1.get();
+		p1.addTag(tag1);
+		p1.addTag(tag2);
+		p1.addTag(tag3);
+		postService.save(p1);
 	}
 }

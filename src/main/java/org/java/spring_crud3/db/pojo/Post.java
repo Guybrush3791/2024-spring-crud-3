@@ -1,11 +1,14 @@
 package org.java.spring_crud3.db.pojo;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -26,6 +29,9 @@ public class Post {
     @ManyToOne
     @JoinColumn(nullable = false)
     private Utente utente;
+
+    @ManyToMany
+    private List<Tag> tags;
 
     public Post() {
 
@@ -79,6 +85,18 @@ public class Post {
 
     public void setUtente(Utente utente) {
         this.utente = utente;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public void addTag(Tag tag) {
+        tags.add(tag);
     }
 
     @Override
