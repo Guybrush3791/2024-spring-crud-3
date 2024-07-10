@@ -242,5 +242,10 @@ public class SpringCrud3Application
 		p1.addTag(tag2);
 		p1.addTag(tag3);
 		postService.save(p1);
+
+		p1.removeTag(tag1);
+		postService.save(p1);
+
+		System.out.println("Tag 1 removed from post 1");
 	}
 }

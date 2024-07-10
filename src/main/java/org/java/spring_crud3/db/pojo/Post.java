@@ -99,6 +99,10 @@ public class Post {
         tags.add(tag);
     }
 
+    public void removeTag(Tag tag) {
+        tags = tags.stream().filter(t -> t.getId() != tag.getId()).toList();
+    }
+
     @Override
     public String toString() {
 
